@@ -1,0 +1,7 @@
+---
+apikey: "6no_YAI5TJzZ7nWYCDtyzw9lI0PeOJ-DQ4zVCfGgqNaC"
+region: "eu-central"
+cluster_name: "mycluster-free1"
+sysdig:
+  access_key: "09cd0c75-8364-4183-b088-f505b80bef09"
+  controller: "ingest.us-south.monitoring.cloud.ibm.com"

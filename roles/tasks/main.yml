@@ -1,0 +1,37 @@
+---
+- name: Login to the IBM Cloud and Cluster
+  tags: ocp_install_sysdig
+  shell: |
+    ibmcloud login --apikey {{ apikey }} -r {{ region }} -q
+    ibmcloud oc cluster config -c {{ cluster_name }}
+    oc login -u apikey -p {{ apikey }}
+
+- name: Install Sysdig Agent in Openshift
+  tags: ocp_install_sysdig
+  shell: |
+     curl -sL https://ibm.biz/install-sysdig-k8s-agent | bash -s -- -a {{ sysdig.access_key }} -c {{ sysdig.controller }} -ac 'sysdig_capture_enabled: false' --openshift
+  register: ocp_sysdig_out
+
+- name: Result of Sysdig agent in Openshift
+  tags: ocp_install_sysdig
+  debug:
+    var: ocp_sysdig_out.stdout_lines
+
+- name: Login to the IBM Cloud and Cluster
+  tags: k8s_install_sysdig
+  shell: |
+    ibmcloud login --apikey {{ apikey }} -r {{ region }} -q
+    ibmcloud ks cluster config -c {{ cluster_name }}
+
+- name: Install Sysdig Agent in Kubernetes
+  tags: k8s_install_sysdig
+  shell: |
+     curl -sL https://ibm.biz/install-sysdig-k8s-agent | bash -s -- \
+     -a {{ sysdig.access_key }} -c {{ sysdig.controller }} \
+     -ac 'sysdig_capture_enabled: false'
+  register: k8s_sysdig_out
+
+- name: Result of Sysdig agent in Kubernetes
+  tags: k8s_install_sysdig
+  debug:
+    var: k8s_sysdig_out.stdout_lines

@@ -1,0 +1,6 @@
+---
+- name: Install SysDig Agent on Kubnertes and Openshift
+  hosts: localhost
+  connection: local
+  roles:
+    - roles
